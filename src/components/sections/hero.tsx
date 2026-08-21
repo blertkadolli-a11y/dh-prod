@@ -132,18 +132,34 @@ export const Hero: FC = (): ReactNode => {
             id='hero'
             className='bg-grain relative flex h-svh flex-col justify-end overflow-hidden bg-background'
         >
-            <div ref={plateRef} className='absolute -inset-8 will-change-transform'>
+            {/* On a phone the viewport is ~0.46:1 while the still is 16:9, so a
+                full-bleed object-cover threw away 74% of the frame's width — and
+                because he stands in the left third, the surviving strip landed on
+                smoke rather than on him. Below lg the plate is therefore its own
+                16:9 band at the top of the hero: the whole shot is visible, and
+                the name sits beneath it. From lg the viewport is wide enough for
+                the original full-bleed treatment. */}
+            <div
+                ref={plateRef}
+                // Offset clear of the fixed header on touch (measured 85px tall),
+                // otherwise the logo and menu sit directly over his face.
+                className='absolute inset-x-0 top-24 aspect-video will-change-transform lg:top-auto lg:-inset-8 lg:aspect-auto'
+            >
               <div ref={plateInnerRef} className='absolute inset-0 will-change-transform'>
                 <img
                     src={HERO_STILL}
                     alt=''
                     aria-hidden='true'
                     fetchPriority='high'
-                    className='h-full w-full object-cover opacity-40 grayscale-[0.7]'
+                    // Brighter on touch, where the plate is a feature rather than
+                    // a texture sitting behind the headline.
+                    className='h-full w-full object-cover opacity-90 grayscale-[0.35] lg:opacity-40 lg:grayscale-[0.7]'
                 />
+                {/* Fades the band into the page below it on touch; on desktop it
+                    is the scrim that keeps the headline legible. */}
                 <div
                     aria-hidden='true'
-                    className='absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40'
+                    className='absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent lg:via-background/85 lg:to-background/40'
                 />
                 {/* Crimson bloom, low opacity — colour in the frame without tinting the whole plate. */}
                 <div
