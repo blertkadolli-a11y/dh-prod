@@ -2,11 +2,22 @@ import type { SiteConfig } from '@/types'
 
 import { films } from '@/constants/films'
 
+/**
+ * Canonical origin. Used to build the absolute `og:image` and `og:url`.
+ *
+ * Deliberately the live Vercel alias, NOT drilonhoxha.com: that domain is
+ * currently parked and answers 302 for everything, so an og:image pointing at
+ * it fails to load and link previews in WhatsApp / Instagram / Telegram come
+ * through with no thumbnail. Switch this the day the domain actually points at
+ * this project.
+ */
+export const SITE_ORIGIN = 'https://dh-prod-delta.vercel.app'
+
 export const siteConfig: SiteConfig = {
     name: 'Drilon Hoxha',
     description:
         'Aktor, regjisor, producent dhe skenarist shqiptar. Themelues i D.H Production. Filmografia, projektet e ardhshme dhe bashkëpunimet.',
-    url: 'https://drilonhoxha.com',
+    url: SITE_ORIGIN,
     ogImage: '/og.jpg'
 }
 
