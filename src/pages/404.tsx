@@ -13,7 +13,7 @@ const NotFound: FC = (): ReactNode => {
                 <meta name='robots' content='noindex' />
             </Head>
 
-            <main className='bg-grain flex min-h-svh flex-col items-center justify-center gap-8 bg-background px-6 text-center'>
+            <main className='bg-grain relative flex min-h-svh flex-col items-center justify-center gap-8 bg-background px-6 text-center'>
                 <span className='type-display text-[clamp(5rem,22vw,16rem)] leading-none text-foreground/10'>
                     404
                 </span>

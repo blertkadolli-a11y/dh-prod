@@ -176,7 +176,7 @@ export const CheckoutModal: FC<CheckoutModalProps> = ({ screening, onClose }): R
                     type='button'
                     onClick={onClose}
                     aria-label={t.ui.close}
-                    className='absolute top-5 right-5 flex size-11 cursor-pointer items-center justify-center rounded-full border border-border text-foreground/70 transition-[transform,border-color,color] duration-300 ease-out hover:scale-110 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                    className='absolute top-5 right-5 flex size-12 cursor-pointer items-center justify-center rounded-full border border-border text-foreground/70 transition-[transform,border-color,color] duration-300 ease-out hover:scale-110 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                 >
                     <X className='size-4' />
                 </button>
@@ -271,7 +271,7 @@ export const CheckoutModal: FC<CheckoutModalProps> = ({ screening, onClose }): R
                                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                                     disabled={quantity <= 1}
                                     aria-label='-'
-                                    className='flex size-11 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-colors duration-200 hover:border-primary disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                                    className='flex size-12 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-colors duration-200 hover:border-primary disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                                 >
                                     <Minus className='size-4' />
                                 </button>
@@ -285,7 +285,7 @@ export const CheckoutModal: FC<CheckoutModalProps> = ({ screening, onClose }): R
                                     onClick={() => setQuantity(q => Math.min(MAX_TICKETS, q + 1))}
                                     disabled={quantity >= MAX_TICKETS}
                                     aria-label='+'
-                                    className='flex size-11 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-colors duration-200 hover:border-primary disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                                    className='flex size-12 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-colors duration-200 hover:border-primary disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                                 >
                                     <Plus className='size-4' />
                                 </button>

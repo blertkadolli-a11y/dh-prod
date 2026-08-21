@@ -207,9 +207,14 @@
     margin-top: -0.18em;
 }
 
-.bg-grain {
-    position: relative;
-}
+/* Deliberately does NOT set `position`.
+   Tailwind v4 emits its utilities inside `@layer utilities`, and unlayered CSS
+   beats layered CSS regardless of specificity — so a `position: relative` here
+   silently overrode `fixed` on the full-screen mobile menu, sizing it to its
+   content (579px in an 812px viewport) instead of covering the screen. Lowering
+   specificity with :where() does not help, because layer order decides first.
+   Elements using this class carry their own positioning utility; the ::before
+   below needs a positioned ancestor, which every call site provides. */
 
 .bg-grain::before {
     content: '';

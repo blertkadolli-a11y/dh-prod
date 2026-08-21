@@ -129,11 +129,11 @@ const PartnerPage: FC = (): ReactNode => {
             <Seo title={t.partner.eyebrow} />
             <FilmGrain />
 
-            <div ref={pageRef} className='bg-grain min-h-svh bg-background px-6 py-10 lg:px-12 lg:py-14'>
+            <div ref={pageRef} className='bg-grain relative min-h-svh bg-background px-6 py-10 lg:px-12 lg:py-14'>
                 <Link
                     href='/'
                     data-cursor-hover
-                    className='partner-item type-meta inline-flex items-center gap-2.5 rounded-full border border-border px-5 py-3 text-foreground/60 transition-[color,border-color,transform] duration-300 ease-out hover:-translate-x-1 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                    className='partner-item type-meta inline-flex min-h-11 items-center gap-2.5 rounded-full border border-border px-5 py-3.5 text-foreground/60 transition-[color,border-color,transform] duration-300 ease-out hover:-translate-x-1 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                 >
                     <ArrowLeft className='size-3.5' />
                     {t.partner.back}
@@ -169,7 +169,7 @@ const PartnerPage: FC = (): ReactNode => {
                         <a
                             href={`mailto:${brand.email}`}
                             data-cursor-hover
-                            className='partner-item type-meta w-fit border-b border-border pb-1 text-foreground/45 transition-colors duration-300 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                            className='partner-item type-meta flex min-h-11 w-fit items-center border-b border-border pb-1 text-foreground/45 transition-colors duration-300 hover:border-primary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                         >
                             {brand.email}
                         </a>

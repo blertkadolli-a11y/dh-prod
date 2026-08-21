@@ -1,8 +1,10 @@
 import type { FC, ReactNode } from 'react'
 
+import { Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { gsap, useGSAP } from '@/lib/gsap'
+import { MobileMenu } from '@/components/sections/mobile-menu'
 import { LangToggle } from '@/components/film/lang-toggle'
 import { useLanguage } from '@/context/language'
 import { navLinks } from '@/constants/navigation'
@@ -12,6 +14,7 @@ import { cn } from '@/lib/utils'
 export const Navbar: FC = (): ReactNode => {
     const { t } = useLanguage()
     const [scrolled, setScrolled] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
     const headerRef = useRef<HTMLElement>(null)
     const progressRef = useRef<HTMLDivElement>(null)
 
@@ -22,6 +25,17 @@ export const Navbar: FC = (): ReactNode => {
         window.addEventListener('scroll', handleScroll, { passive: true })
 
         return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    useEffect(() => {
+        const desktop = window.matchMedia('(min-width: 1024px)')
+        const handle = (event: MediaQueryListEvent) => {
+            if (event.matches) setMenuOpen(false)
+        }
+
+        desktop.addEventListener('change', handle)
+
+        return () => desktop.removeEventListener('change', handle)
     }, [])
 
     useGSAP(() => {
@@ -41,6 +55,7 @@ export const Navbar: FC = (): ReactNode => {
     }, { scope: headerRef })
 
     return (
+        <>
         <header
             ref={headerRef}
             className={cn(
@@ -53,7 +68,7 @@ export const Navbar: FC = (): ReactNode => {
                     href='#hero'
                     data-cursor-hover
                     aria-label={brand.company}
-                    className='shrink-0 transition-transform duration-300 ease-out hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                    className='flex shrink-0 items-center py-2 transition-transform duration-300 ease-out hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                 >
                     <img
                         src='/logo.png'
@@ -82,13 +97,33 @@ export const Navbar: FC = (): ReactNode => {
                     ))}
                 </nav>
 
-                <LangToggle />
+                <div className='flex items-center gap-2'>
+                    <LangToggle />
+
+                    {/* Below lg the desktop nav is hidden, so this is the only
+                        route to any section. */}
+                    <button
+                        type='button'
+                        onClick={() => setMenuOpen(value => !value)}
+                        aria-expanded={menuOpen}
+                        aria-controls='mobile-menu'
+                        aria-label={menuOpen ? t.ui.close : t.ui.open}
+                        className='relative z-[130] flex size-12 cursor-pointer items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none lg:hidden'
+                    >
+                        {menuOpen ? <X className='size-5' /> : <Menu className='size-5' />}
+                    </button>
+                </div>
             </div>
 
             {/* Scroll progress — the only always-on motion in the chrome. */}
             <div className='relative h-px w-full bg-border/60'>
                 <div ref={progressRef} className='h-full w-full origin-left scale-x-0 bg-primary' />
             </div>
+
         </header>
+
+        {/* Sibling of <header>, deliberately — see note above. */}
+        <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+        </>
     )
 }

@@ -16,7 +16,7 @@ export const Footer: FC = (): ReactNode => {
                     href='#hero'
                     aria-label={brand.company}
                     data-cursor-hover
-                    className='shrink-0 rounded-sm transition-transform duration-300 ease-out hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                    className='flex min-h-11 shrink-0 items-center rounded-sm transition-transform duration-300 ease-out hover:scale-[1.04] focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                 >
                     <img
                         src='/logo.png'
@@ -28,13 +28,13 @@ export const Footer: FC = (): ReactNode => {
                     />
                 </a>
 
-                <nav className='flex flex-wrap items-center gap-x-8 gap-y-3'>
+                <nav className='flex flex-wrap items-center gap-x-8 gap-y-1'>
                     {navLinks.map(link => (
                         <a
                             key={link.key}
                             href={link.href}
                             data-cursor-hover
-                            className='type-meta text-foreground/45 transition-colors duration-200 hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                            className='type-meta flex min-h-11 items-center text-foreground/45 transition-colors duration-200 hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                         >
                             {t.nav[link.key]}
                         </a>

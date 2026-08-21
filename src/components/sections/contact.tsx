@@ -66,7 +66,7 @@ export const Contact: FC = (): ReactNode => {
                     ref={emailRef}
                     href={`mailto:${brand.email}`}
                     data-cursor-hover
-                    className='contact-item type-title w-fit max-w-full cursor-pointer break-all border-b border-primary pb-2 text-[clamp(1.1rem,3vw,2.25rem)] text-foreground transition-colors duration-300 hover:text-primary-bright focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
+                    className='contact-item type-title flex min-h-11 w-fit max-w-full cursor-pointer items-center break-all border-b border-primary pb-2 text-[clamp(1.1rem,3vw,2.25rem)] text-foreground transition-colors duration-300 hover:text-primary-bright focus-visible:ring-2 focus-visible:ring-primary-bright focus-visible:outline-none'
                 >
                     {brand.email}
                 </a>

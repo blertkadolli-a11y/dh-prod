@@ -29,7 +29,7 @@ export const LangToggle: FC = (): ReactNode => {
                 <span
                     key={code}
                     className={cn(
-                        'type-meta relative z-10 px-3 py-1.5 transition-colors duration-300',
+                        'type-meta relative z-10 flex items-center px-3.5 py-2.5 transition-colors duration-300',
                         lang === code ? 'text-primary-foreground' : 'text-foreground/45'
                     )}
                 >
