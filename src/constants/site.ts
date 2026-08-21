@@ -10,6 +10,16 @@ export const siteConfig: SiteConfig = {
     ogImage: '/og.jpg'
 }
 
+/**
+ * While true the site emits `noindex, nofollow`.
+ *
+ * This matters more than usual here: the screening dates in
+ * `src/constants/screenings.ts` are invented. If a search engine indexed this
+ * preview, fabricated Ego 2 premiere dates would be attributed to a real
+ * filmmaker and a real film. Set to false only when the real schedule is in.
+ */
+export const IS_DEMO = true
+
 export const brand = {
     name: 'Drilon Hoxha',
     company: 'D.H Production',

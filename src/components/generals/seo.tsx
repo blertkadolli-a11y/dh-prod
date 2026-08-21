@@ -3,7 +3,7 @@ import Head from 'next/head'
 import type { FC, ReactNode } from 'react'
 import type { SeoProps } from '@/types'
 
-import { siteConfig } from '@/constants/site'
+import { IS_DEMO, siteConfig } from '@/constants/site'
 
 export const Seo: FC<SeoProps> = ({
     title,
@@ -24,6 +24,10 @@ export const Seo: FC<SeoProps> = ({
             </title>
 
             <meta name='description' content={description} />
+
+            {/* Keeps the demo — and its placeholder screening dates — out of
+                search results until the real schedule replaces them. */}
+            {IS_DEMO && <meta name='robots' content='noindex, nofollow' />}
             <meta property='og:title' content={pageTitle} />
             <meta property='og:description' content={description} />
             <meta property='og:type' content='website' />

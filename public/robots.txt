@@ -1,0 +1,5 @@
+# Preview build. The screening dates in this deployment are placeholders and
+# must not be indexed — remove this file (and set IS_DEMO to false in
+# src/constants/site.ts) when the real schedule goes in.
+User-agent: *
+Disallow: /
