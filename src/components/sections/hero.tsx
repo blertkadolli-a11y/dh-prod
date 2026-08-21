@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react'
 
 import { ArrowDown } from 'lucide-react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { gsap, useGSAP } from '@/lib/gsap'
 import { SplitChars } from '@/components/generals/split-chars'
@@ -9,16 +9,11 @@ import { useLanguage } from '@/context/language'
 import { brand } from '@/constants/site'
 
 import { DURATION, EASE, STAGGER } from '@/constants/motion'
+import { HERO_START } from '@/constants/intro'
 
 /** Ego (2023) — the most recent feature. Doubles as the hero plate. */
 const HERO_STILL = '/stills/ego.jpg'
 
-/**
- * When the hero begins revealing. Deliberately overlaps the tail of the
- * preloader's letterbox split so the two read as one continuous move rather
- * than two sequential animations.
- */
-const HERO_START = 2.05
 
 export const Hero: FC = (): ReactNode => {
     const { lang, t } = useLanguage()
@@ -28,6 +23,36 @@ export const Hero: FC = (): ReactNode => {
     const nameRef = useRef<HTMLHeadingElement>(null)
 
     const roles = t.hero.roles.split(' · ')
+
+    /**
+     * Pointer parallax lives in a plain effect, not in useGSAP.
+     *
+     * useGSAP discards whatever its callback returns — it reverts the GSAP
+     * context, which kills tweens, but a window listener is not a GSAP object
+     * and would never be removed. Since that hook re-runs on `lang`, every
+     * language toggle stacked another live mousemove listener.
+     */
+    useEffect(() => {
+        const plate = plateRef.current
+        if (!plate) return
+        if (!window.matchMedia('(pointer: fine)').matches) return
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        // quickTo keeps this off the render path: no tween is created per move.
+        const plateX = gsap.quickTo(plate, 'xPercent', { duration: 1.1, ease: 'power3' })
+        const plateY = gsap.quickTo(plate, 'yPercent', { duration: 1.1, ease: 'power3' })
+
+        const handlePointer = (event: MouseEvent) => {
+            const x = (event.clientX / window.innerWidth - 0.5) * 2
+            const y = (event.clientY / window.innerHeight - 0.5) * 2
+            plateX(x * 2.2)
+            plateY(y * 1.6)
+        }
+
+        window.addEventListener('mousemove', handlePointer)
+
+        return () => window.removeEventListener('mousemove', handlePointer)
+    }, [])
 
     useGSAP(() => {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -86,31 +111,12 @@ export const Hero: FC = (): ReactNode => {
             delay: HERO_START + 1.4
         })
 
-        // Pointer parallax. The plate leans very slightly toward the cursor —
-        // enough to feel alive on a still hero, not enough to notice as motion.
-        // quickTo keeps this off the render path: no tween is created per move.
-        const plateX = gsap.quickTo(plateRef.current, 'xPercent', { duration: 1.1, ease: 'power3' })
-        const plateY = gsap.quickTo(plateRef.current, 'yPercent', { duration: 1.1, ease: 'power3' })
-
-        const handlePointer = (event: MouseEvent) => {
-            const x = (event.clientX / window.innerWidth - 0.5) * 2
-            const y = (event.clientY / window.innerHeight - 0.5) * 2
-            plateX(x * 2.2)
-            plateY(y * 1.6)
-        }
-
-        if (window.matchMedia('(pointer: fine)').matches) {
-            window.addEventListener('mousemove', handlePointer)
-        }
-
         // Depth on exit: plate drifts down, name drifts up, at different rates.
         gsap.to(plateInnerRef.current, {
             yPercent: 14,
             ease: 'none',
             scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true }
         })
-
-        return () => window.removeEventListener('mousemove', handlePointer)
 
         gsap.to(nameRef.current, {
             yPercent: -18,

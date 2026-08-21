@@ -27,11 +27,11 @@ export const FilmCard: FC<FilmCardProps> = ({ film, index, onPlay }): ReactNode 
             data-cursor-hover={film.videoId ? '' : undefined}
             data-cursor-label={film.videoId ? t.ui.watch : undefined}
             className={cn(
-                'film-card group relative flex w-[min(88vw,42rem)] shrink-0 flex-col justify-between overflow-hidden bg-card',
+                'film-card group relative flex w-[min(86vw,42rem)] shrink-0 snap-center flex-col justify-between overflow-hidden bg-card lg:snap-align-none',
                 // Mobile cards are content-driven: at 88vw the 16:10 ratio is only
                 // ~206px tall, which clipped the CTA clean off. The fixed ratio is
                 // kept from lg up, where the pinned track needs uniform card sizes.
-                'min-h-[20rem] lg:aspect-[16/10] lg:min-h-0',
+                'aspect-[4/5] min-h-[22rem] sm:aspect-[16/10] lg:min-h-0',
                 'rounded-2xl border border-border transition-[border-color,transform] duration-500 ease-out',
                 'hover:-translate-y-1.5 hover:border-primary/60'
             )}

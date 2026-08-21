@@ -111,7 +111,8 @@ export const Filmography: FC = (): ReactNode => {
             })
         })
 
-        // Reduced motion / mobile: cards reveal in place, no pin, no travel.
+        // Touch / reduced motion: the cards still reveal, but the track is
+        // scrolled by the user rather than by a pin.
         media.add('(max-width: 1023px), (prefers-reduced-motion: reduce)', () => {
             gsap.fromTo('.film-card',
                 { y: 40, opacity: 0 },
@@ -132,7 +133,7 @@ export const Filmography: FC = (): ReactNode => {
             <section
                 ref={sectionRef}
                 id='filmografia'
-                className='relative flex flex-col overflow-hidden bg-background lg:h-svh'
+                className='relative flex flex-col bg-background lg:h-svh lg:overflow-hidden'
             >
                 <div className='shrink-0 px-6 pt-[clamp(3rem,8vh,6rem)] pb-[clamp(1.5rem,4vh,3rem)] lg:px-12'>
                     <div className='flex flex-col gap-4'>
@@ -145,16 +146,22 @@ export const Filmography: FC = (): ReactNode => {
                             />
                         </h2>
 
-                        <span className='type-meta hidden text-foreground/35 lg:block'>
-                            {t.filmography.hint}
+                        <span className='type-meta text-foreground/35'>
+                            <span className='lg:hidden'>{t.filmography.swipeHint}</span>
+                            <span className='hidden lg:inline'>{t.filmography.hint}</span>
                         </span>
                     </div>
                 </div>
 
-                <div className='min-h-0 flex-1 pb-[clamp(2rem,5vh,4rem)]'>
+                {/* Below lg this is a real horizontal scroller with snap, so the
+                    films travel sideways exactly as they do on desktop but under
+                    the user's own thumb. Hijacking vertical scroll to move a
+                    horizontal track fights the gesture on touch, so the pin is
+                    desktop-only — the presentation is the same, the input is not. */}
+                <div className='no-scrollbar min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overscroll-x-contain pb-[clamp(2rem,5vh,4rem)] lg:snap-none lg:overflow-visible lg:overscroll-auto'>
                     <div
                         ref={trackRef}
-                        className='flex flex-col gap-6 px-6 will-change-transform lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-8 lg:px-12'
+                        className='flex w-max gap-5 px-6 will-change-transform lg:h-full lg:items-center lg:gap-8 lg:px-12'
                     >
                         {films.map((film, index) => (
                             <FilmCard

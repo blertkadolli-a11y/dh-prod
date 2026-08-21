@@ -369,3 +369,14 @@ body.modal-open {
 .rounded-frame {
     border-radius: 1rem;
 }
+
+/* Horizontal film track on touch: scrollable, but without the scrollbar
+   cutting across the card artwork. */
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

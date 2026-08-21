@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 
 import { gsap, useGSAP } from '@/lib/gsap'
+import { BARS_SPLIT_AT, LEADER_END, TITLE_HOLD } from '@/constants/intro'
 import { DURATION, EASE } from '@/constants/motion'
 import { films } from '@/constants/films'
 import { brand } from '@/constants/site'
@@ -15,9 +16,6 @@ import { brand } from '@/constants/site'
  * the macrotask queue, which keeps firing when rAF does not.
  */
 const FAILSAFE_MS = 7000
-
-/** Seconds each title holds on screen during the leader sequence. */
-const TITLE_HOLD = 0.16
 
 const unlockScroll = () => {
     document.documentElement.style.overflow = ''
@@ -69,7 +67,7 @@ export const Preloader: FC = (): ReactNode => {
                 .to(title, { autoAlpha: 0, duration: 0.1, ease: EASE.exit }, index * TITLE_HOLD + TITLE_HOLD * 0.72)
         })
 
-        const leaderEnd = titles.length * TITLE_HOLD + 0.1
+        const leaderEnd = LEADER_END
 
         // 2. The mark resolves out of the cuts.
         timeline.to(markRef.current, {
@@ -90,8 +88,8 @@ export const Preloader: FC = (): ReactNode => {
         timeline
             .to(markRef.current, { autoAlpha: 0, duration: 0.3, ease: EASE.exit }, leaderEnd + 0.85)
             .to(lineRef.current, { scaleX: 0, duration: 0.3, ease: EASE.exit, transformOrigin: 'right center' }, leaderEnd + 0.85)
-            .to(barTopRef.current, { yPercent: -100, duration: DURATION.text, ease: EASE.reveal }, leaderEnd + 1.05)
-            .to(barBottomRef.current, { yPercent: 100, duration: DURATION.text, ease: EASE.reveal }, leaderEnd + 1.05)
+            .to(barTopRef.current, { yPercent: -100, duration: DURATION.text, ease: EASE.reveal }, BARS_SPLIT_AT)
+            .to(barBottomRef.current, { yPercent: 100, duration: DURATION.text, ease: EASE.reveal }, BARS_SPLIT_AT)
             .set(overlayRef.current, { autoAlpha: 0, pointerEvents: 'none' })
     }, { scope: overlayRef })
 
